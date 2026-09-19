@@ -18,15 +18,15 @@ Especially useful if your tunneling workflow does not allow for native clipboard
 ## Architecture Overview
 
 ```
-[ Ubuntu Client ]                                      [ Windows Host ]
-+----------------------+                               +----------------------+
-|  wl-paste / GTK      |                               |  Win32 Clipboard     |
-|          |           |                               |          |           |
-|  sync_daemon.py      | -- SSH (Port 2222 / SSH-In) -> |  to_win.txt          |
-|          |           |                               |  SetClip.exe         |
-|          |           |                               |          |           |
-|  127.0.0.1:9999      | <- Reverse SSH Tunnel (9999) - |  WatchWin.exe        |
-+----------------------+                               +----------------------+
+[ Ubuntu Client ]                                        [ Windows Host ]
++----------------------+                                 +----------------------+
+|  wl-paste / GTK      |                                 |  Win32 Clipboard     |
+|         |            |                                 |       |              |
+|  sync_daemon.py      | -- SSH (Port 2222 / SSH-In) ->  |  to_win.txt          |
+|         |            |                                 |  SetClip.exe         |
+|         |            |                                 |       |              |
+|  127.0.0.1:9999      | <- Reverse SSH Tunnel (9999) -- |  WatchWin.exe        |
++----------------------+                                 +----------------------+
 ```
 
 1. **Ubuntu -> Windows:** `sync_daemon.py` watches the Wayland selection. When you press `Ctrl + C` on Ubuntu, it sends the sanitized text over SSH to `C:\Users\<user>\.clip\to_win.txt` and triggers `SetClip.exe` via Windows Scheduled Tasks.
